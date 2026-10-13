@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "pepe-browser-game/1",
+  "title": "IMD PEPE RISK",
+  "version": "1.0.0",
+  "summary": "Command a neon-noir Pepe army across 42 territories. Deploy, attack and fortify against the swarm.",
+  "description": "Free local practice against up to five AI factions, or same-device pass-and-play. Hold all territories, or the most after 12 rounds or 10 active minutes. Defender wins ties; continents add reinforcements. Practice results are display-only and award no tokens. Standalone contract tools support the attested MatchFactory and IMD PrizeVault. This deployment has no Game.state/act interface and is not compatible with Pepe2Pepe on-chain reward listing.",
+  "controls": "Tap territories or use the territory and target menus, then confirm an order. D/A/F: phases; 1–6: continents; Space: last combat; P/Escape: pause. Arrow keys explore the map. Shift-drag selects same-rank squads. Touch controls are below the map.",
+  "genre": "strategy",
+  "players": 1,
+  "mobile": true,
+  "entry": "play.html",
+  "cover": "cover.webp"
+}

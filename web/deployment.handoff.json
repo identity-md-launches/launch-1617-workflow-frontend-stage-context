@@ -1,0 +1,110 @@
+{
+  "chainId": 4663,
+  "poolKey": {
+    "fee": 12500,
+    "hooks": "0x19bec7c2e1b2aadaf67b259744751a9960d66000",
+    "currency0": "0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127",
+    "currency1": "0x8568a3f9469510837bac4e98e2f93cf9b5a91101",
+    "tickSpacing": 60
+  },
+  "repoUrl": "https://github.com/identity-md-launches/launch-1594-workflow-contract-stage-context",
+  "version": 1,
+  "launchId": "9aecab31-7554-4e10-9b1c-fabf44cb383a",
+  "manifest": {
+    "kind": "evm_project",
+    "pool": {
+      "fee": 12500,
+      "tickSpacing": 60,
+      "initialPrice": "79228162514264337593543950336",
+      "pairedCurrency": "0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127"
+    },
+    "notes": "IMD PEPE RISK: an unofficial community game. RISK (LaunchToken, src/LaunchToken.sol) is a plain fixed-supply ERC-20 and is NOT the IMD token. Contracts in constructor dependency order: Buyback(initialOwner, imdToken, riskToken) holds IMD routed from cosmetics sales, buys RISK through an owner-set swap venue and burns it to 0x...dEaD in the same transaction, and routes RISK entry fees into IMD; PrizeVault(initialOwner, imdToken) pays match prizes in IMD only by pull payment (60/25/15, 75/25 for two players) with a cap of 3 rewarded placements per wallet per rolling 24 hours; MatchFactory(initialOwner, imdToken, riskToken, prizeVault, buybackAddr) runs 2-6 player lobbies with IMD entry fees (or RISK routed to IMD with 10% of the RISK burned), commit-reveal dice seeds, signature settlement and pull refunds; Cosmetics(initialOwner, imdToken, prizeVault, buybackAddr) sells appearance-only items for IMD and splits each sale 30% to Buyback (20% burn share + 10% buyback share), 35% to the PrizeVault bonus pool and 35% to the owner-set seats/stakers recipient. Every initialOwner is $owner, the launch's owner; no contract makes msg.sender or tx.origin an owner. riskToken is $token. imdToken is 0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127, the IMD ERC-20 on Robinhood Chain (chain id 4663), which is also the pool's paired currency; it is immutable in all four contracts. Review finding carried forward from the README: the brief quotes 0xD34a99Bc0f67aE1bbd63C660e6d0b0dd03E263B7 as IMD, which is not the launch chain's IMD, so the chain table address is used here and the independent review should confirm it. No constructor calls another contract, so all four deploy on an empty chain. No initialization calls: after launch the owner links PrizeVault.setMatchFactory to the deployed MatchFactory (one time), sets Buyback.setVenue to an ISwapVenue adapter, optionally sets MatchFactory.setOutcomeSigner, and sets Cosmetics.setSeatRewardsRecipient and configureItem. The pool pairs RISK with IMD; the factory opens it at the chain's 1.25% LaunchFees fee and derives the opening price from the policy's 2,500 IMD opening market cap. No application contract receives any of the supply at launch; Buyback and the vault only hold what users route or deposit later.",
+    "token": {
+      "name": "IMD RISK",
+      "symbol": "RISK",
+      "contract": "LaunchToken",
+      "decimals": 18
+    },
+    "contracts": [
+      {
+        "contract": "Buyback",
+        "constructorArgs": [
+          "$owner",
+          "0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127",
+          "$token"
+        ]
+      },
+      {
+        "contract": "PrizeVault",
+        "constructorArgs": [
+          "$owner",
+          "0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127"
+        ]
+      },
+      {
+        "contract": "MatchFactory",
+        "constructorArgs": [
+          "$owner",
+          "0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127",
+          "$token",
+          "$contract:PrizeVault",
+          "$contract:Buyback"
+        ]
+      },
+      {
+        "contract": "Cosmetics",
+        "constructorArgs": [
+          "$owner",
+          "0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127",
+          "$contract:PrizeVault",
+          "$contract:Buyback"
+        ]
+      }
+    ]
+  },
+  "contracts": [
+    {
+      "name": "LaunchToken",
+      "txHash": "0xc335c3c222f6d2b452b85ce1abb9ce94c175f8d1b907ec610650d99cbef9bec7",
+      "abiHash": "2437581b0e5b3f96fc978d4b304f33e366d0fbb04bc7d6fd9f8b9bb88606346a",
+      "address": "0x8568a3f9469510837bac4e98e2f93cf9b5a91101",
+      "blockNumber": 87688794,
+      "creationCodeHash": "183eec370562f167608c6d304ea23db9267124d4d07c90facd88952f50a22e87"
+    },
+    {
+      "name": "Buyback",
+      "txHash": "0xc335c3c222f6d2b452b85ce1abb9ce94c175f8d1b907ec610650d99cbef9bec7",
+      "abiHash": "4c45c16a83fbf8e676be18906fd50b612784d4fdabb4ab42b1db323a83ec9fdf",
+      "address": "0x6808a025eb14399660e101353a6df73918f95692",
+      "blockNumber": 87688794,
+      "creationCodeHash": "87711bd23783c515c74e75cb4d7e45de0af9664299c81898e87e72b14934f795"
+    },
+    {
+      "name": "PrizeVault",
+      "txHash": "0xc335c3c222f6d2b452b85ce1abb9ce94c175f8d1b907ec610650d99cbef9bec7",
+      "abiHash": "cc44dd2a49df6de9db36d173dfc126d6cfc488bcb656bc025cba2e80c64f9f3e",
+      "address": "0x6fff4e864830d98f8a42d17251445628b612d6eb",
+      "blockNumber": 87688794,
+      "creationCodeHash": "b47e54e41133ec4113514c7648a01e873be93c22052207c8abd00349fd499ef9"
+    },
+    {
+      "name": "MatchFactory",
+      "txHash": "0xc335c3c222f6d2b452b85ce1abb9ce94c175f8d1b907ec610650d99cbef9bec7",
+      "abiHash": "fc370d829a67723a0bfbc9a93c92563d9ac0aa65f270b1e2871e4599ee4db341",
+      "address": "0xb47373fa67f23854ba21418e43a3756919dcb431",
+      "blockNumber": 87688794,
+      "creationCodeHash": "174835ae7af4f09c6101090ba80b1ecc2eb41c3df65495e4852870bbee71440b"
+    },
+    {
+      "name": "Cosmetics",
+      "txHash": "0xc335c3c222f6d2b452b85ce1abb9ce94c175f8d1b907ec610650d99cbef9bec7",
+      "abiHash": "acf7bd9aac6a9ee19754695b5d6f5621acf9a4e402f3c77712a17e3502c775d9",
+      "address": "0xc6e7d724b80f37926fc44f0ff4b74111f8f230e1",
+      "blockNumber": 87688794,
+      "creationCodeHash": "df07edff0b3c70f25bd1afaa62117247d42f272e7518481489c8b0598ac4b9c5"
+    }
+  ],
+  "sourceCommit": "ea68f7e1a9b6271449984eefa6cc791ccb6a8748",
+  "abiInstructions": "Build ABIs from this exact source commit; compare canonicalKeccak(abi) with abiHash. Verify deployed code on the stated chain before enabling transactions.",
+  "attestationHash": "615d8c1439a5bb8f3acf9b99afada1548d4805f2ad5ab3c5263cdc402e6e17ce"
+}

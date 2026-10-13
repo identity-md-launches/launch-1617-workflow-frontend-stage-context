@@ -1,0 +1,98 @@
+{
+  "observedAt": "2026-10-13T18:10:05.368Z",
+  "testedExport": {
+    "path": "assets/main-B3osd7Ob.js",
+    "sha256": "1eac3c0f58228bbe5dcd0750a03bf427f6597520b8690b408da043c6851fc7fe"
+  },
+  "mode": "Production static export; mocked wallet/RPC; no live transactions",
+  "checks": [
+    {
+      "name": "390px first screen: product, start and wallet; static gateway subpath",
+      "passed": true,
+      "durationMs": 153
+    },
+    {
+      "name": "320px and 1440px layout; no missing local assets",
+      "passed": true,
+      "durationMs": 158
+    },
+    {
+      "name": "missing wallet: actionable error, game remains usable",
+      "passed": true,
+      "durationMs": 52
+    },
+    {
+      "name": "touch: start, deploy, target, attack, fortify, next turn",
+      "passed": true,
+      "durationMs": 449
+    },
+    {
+      "name": "keyboard: map arrows, pause, focus trap, resume, results and restart",
+      "passed": true,
+      "durationMs": 323
+    },
+    {
+      "name": "reduced motion and accessible initial-page scan",
+      "passed": true,
+      "durationMs": 1127
+    },
+    {
+      "name": "wallet connect, wrong chain, exact add-chain fallback then switch",
+      "passed": true,
+      "durationMs": 259
+    },
+    {
+      "name": "reward claim: simulation, review, rejection, retry, confirmation, reread",
+      "passed": true,
+      "durationMs": 372
+    },
+    {
+      "name": "owner controls, invalid input, exact contract set and large numeric overflow",
+      "passed": true,
+      "durationMs": 187
+    },
+    {
+      "name": "swap quote, exact ERC20 / Permit2 approvals, simulated execution and receipt",
+      "passed": true,
+      "durationMs": 593
+    },
+    {
+      "name": "opaque iframe: authenticated init, account, pause/resume, unsupported claim disabled",
+      "passed": true,
+      "durationMs": 373
+    },
+    {
+      "name": "host bridge claim transport: confirmed hash, rejection and channel renewal",
+      "passed": true,
+      "durationMs": 366
+    },
+    {
+      "name": "host request timeout keeps an uncertain write from auto-retrying",
+      "passed": true,
+      "durationMs": 94
+    },
+    {
+      "name": "ABI tampering blocks transactions without blocking free practice",
+      "passed": true,
+      "durationMs": 233
+    },
+    {
+      "name": "RPC outage shows retry while practice stays available",
+      "passed": true,
+      "durationMs": 365
+    },
+    {
+      "name": "WebKit primary interaction",
+      "passed": true,
+      "durationMs": 5120
+    }
+  ],
+  "rpcMethods": [
+    "eth_chainId",
+    "eth_getCode",
+    "eth_call",
+    "eth_getTransactionReceipt",
+    "eth_getBlockByNumber"
+  ],
+  "failures": []
+}

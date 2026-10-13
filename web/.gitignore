@@ -1,0 +1,9 @@
+node_modules/
+**/node_modules/
+**/.cache/
+**/.vite/
+**/.npm/
+**/.pnpm-store/
+*.tsbuildinfo
+playwright-report/
+test-results/

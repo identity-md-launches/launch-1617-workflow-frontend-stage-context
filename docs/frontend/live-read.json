@@ -1,0 +1,67 @@
+{
+  "observedAt": "2026-10-13T17:46:01.201Z",
+  "source": "https://robinhood-rpc.publicnode.com",
+  "chainId": 4663,
+  "blockNumber": 87700777,
+  "contracts": [
+    {
+      "name": "LaunchToken",
+      "address": "0x8568a3f9469510837bac4e98e2f93cf9b5a91101",
+      "codeBytes": 1185,
+      "reads": {
+        "name": "IMD RISK",
+        "symbol": "RISK",
+        "decimals": 18,
+        "totalSupply": "1000000000000000000000000000"
+      }
+    },
+    {
+      "name": "Buyback",
+      "address": "0x6808a025eb14399660e101353a6df73918f95692",
+      "codeBytes": 4435,
+      "reads": {
+        "owner": "0x3d6a89C8751a45DD577a4C1F3b34E71C58236193",
+        "venue": "0x0000000000000000000000000000000000000000",
+        "burnedSupply": "0",
+        "circulatingSupply": "1000000000000000000000000000"
+      }
+    },
+    {
+      "name": "PrizeVault",
+      "address": "0x6fff4e864830d98f8a42d17251445628b612d6eb",
+      "codeBytes": 4745,
+      "reads": {
+        "owner": "0x3d6a89C8751a45DD577a4C1F3b34E71C58236193",
+        "matchFactory": "0x0000000000000000000000000000000000000000",
+        "bonusPool": "0",
+        "totalClaimable": "0"
+      }
+    },
+    {
+      "name": "MatchFactory",
+      "address": "0xb47373fa67f23854ba21418e43a3756919dcb431",
+      "codeBytes": 12558,
+      "reads": {
+        "owner": "0x3d6a89C8751a45DD577a4C1F3b34E71C58236193",
+        "nextMatchId": "1",
+        "outcomeSigner": "0x0000000000000000000000000000000000000000",
+        "imd": "0x5F7Bb59365ce557C26dbcAa4EE9d39A4b95B7127",
+        "risk": "0x8568A3f9469510837baC4E98E2F93Cf9b5A91101",
+        "vault": "0x6fFf4E864830d98f8A42D17251445628B612D6EB",
+        "buyback": "0x6808a025eB14399660E101353a6Df73918F95692"
+      }
+    },
+    {
+      "name": "Cosmetics",
+      "address": "0xc6e7d724b80f37926fc44f0ff4b74111f8f230e1",
+      "codeBytes": 3899,
+      "reads": {
+        "owner": "0x3d6a89C8751a45DD577a4C1F3b34E71C58236193",
+        "seatRewardsRecipient": "0x0000000000000000000000000000000000000000",
+        "totalRevenue": "0",
+        "pendingSeatRewards": "0"
+      }
+    }
+  ],
+  "transactionsSent": 0
+}
