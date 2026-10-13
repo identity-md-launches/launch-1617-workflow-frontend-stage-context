@@ -4,6 +4,7 @@ import { createServer } from "node:http";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve, extname } from "node:path";
 import assert from "node:assert/strict";
+import { runRevisionChecks } from "./revision-checks.mjs";
 import {
   decodeFunctionData,
   encodeFunctionResult,
@@ -14,7 +15,7 @@ import {
 } from "viem";
 const root = resolve(import.meta.dirname, "../.."),
   dist = resolve(root, "dist"),
-  evidence = resolve(root, "docs/frontend");
+  evidence = resolve(root, process.env.IMD_REVISION_BASELINE ? "test/scratch/revision-before" : "docs/frontend");
 await mkdir(evidence, { recursive: true });
 const manifest = JSON.parse(
   await readFile(resolve(dist, "imd-deployment.json"), "utf8"),
@@ -46,6 +47,7 @@ let claimed = false,
   ercApproved = false,
   permitApproved = false;
 const rpcCalls = [];
+const rpcControl = { delays: {}, calls: [], fail: "" };
 async function rpcResult(req) {
   rpcCalls.push(req.method);
   if (rejectRpc) throw Error("Mock RPC outage");
@@ -65,6 +67,8 @@ async function rpcResult(req) {
     case "eth_getBalance":
       return "0x100000000000000000";
     case "eth_getTransactionReceipt":
+      if (rpcControl.delays.receipt)
+        await new Promise((r) => setTimeout(r, rpcControl.delays.receipt));
       return {
         transactionHash: hash,
         transactionIndex: "0x0",
@@ -116,6 +120,10 @@ async function rpcResult(req) {
         return "0x";
       }
       const fn = decoded.functionName;
+      rpcControl.calls.push({ fn, args: decoded.args, to });
+      if (rpcControl.delays[fn])
+        await new Promise((r) => setTimeout(r, rpcControl.delays[fn]));
+      if (rpcControl.fail === fn) throw Error("Mock simulation failure");
       let result;
       if (fn === "owner") result = account;
       else if (fn === "matchFactory") result = contract("MatchFactory");
@@ -333,6 +341,13 @@ async function noOverflow(page) {
 }
 try {
   browser = await chromium.launch({ headless: true });
+  const revisionChecks = () => runRevisionChecks({
+    browser, webkit, setup, check, noOverflow, evidence, rpcControl,
+    reset: () => { claimed = false; ercApproved = false; permitApproved = false; },
+  });
+  if (process.argv.includes("--revision-only")) {
+    await revisionChecks();
+  } else {
   let context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     deviceScaleFactor: 1,
@@ -860,6 +875,8 @@ try {
       await b?.close();
     }
   });
+  await revisionChecks();
+  }
 } finally {
   await browser?.close();
   await new Promise((r) => server.close(r));

@@ -1,10 +1,10 @@
 # Frontend validation and handoff
 
-Worker validation, 2026-10-13. These are local observations, not an independent audit or a publication attestation.
+Worker validation, 2026-10-13, including the targeted review revision. These are local observations, not an independent audit or a publication attestation.
 
 ## Delivery status
 
-The scoped frontend, static export, cover, deployment manifest and evidence are written in the workspace. Git staging was attempted but failed because `.git` is mounted read-only: `Unable to create .git/index.lock: Read-only file system`. No commit was created by this session; the network worker must collect and commit the allowed files. The game and direct-wallet UI were built and exercised locally. **The original Pepe2Pepe on-chain host reward integration remains incompatible with the already-deployed contracts.** A frontend cannot add the missing `Game.state(address)` / `Game.act(bytes)` interface or contract-verified local gameplay. No replacement Game address, creator value, hosted submission ID, or token entitlement was fabricated.
+The scoped frontend, static export, cover, deployment manifest and evidence are written in the workspace. Git staging was attempted again in this revision but failed because `.git` is mounted read-only: `Unable to create .git/index.lock: Read-only file system`. No commit was created by this session; the network worker must collect and commit the allowed files. The game and direct-wallet UI were built and exercised locally. **The original Pepe2Pepe on-chain host reward integration remains incompatible with the already-deployed contracts.** A frontend cannot add the missing `Game.state(address)` / `Game.act(bytes)` interface or contract-verified local gameplay. No replacement Game address, creator value, hosted submission ID, or token entitlement was fabricated.
 
 `dist/pepe-game.json` describes the free `play.html` entry under `pepe-browser-game/1` and explicitly discloses the incompatibility. It is not an on-chain registration manifest. The SDK transport is included and tested; the actual host claim control is disabled. Existing IMD entitlements can be claimed directly through the standalone PrizeVault UI. The publisher must resolve template/deployment compatibility before claiming an on-chain listing is complete.
 
@@ -20,7 +20,7 @@ Root `DESIGN.md` is prohibited by the task’s overriding write budget. The fina
 | Deploy / attack / fortify; defender wins ties | Deterministic Keccak dice and engine transition guards; seeded complete-game tests |
 | Solo swarm or 2–6 players | Local AI or same-device pass-and-play; no network multiplayer service claimed |
 | Keyboard, touch, pause, results | Chromium touch and keyboard flows, WebKit start/deploy/pause/resume, native modal handling, screenshots |
-| Ranks / neon-noir scene / cover | Original faceted Pepe artwork and gear, numbered factions, cyan/magenta map strips, grid/scanlines; 1200×630 local cover |
+| Ranks / neon-noir scene / cover | Original faceted Pepe artwork, rank-specific map miniatures/pips, numbered factions, cyan/magenta strips, fog/reflections, restrained battle and ownership motion; 1200×630 local cover |
 | Wallet/network/action states | Missing wallet, wrong chain, exact add-chain fallback, simulation/review, rejection, receipt and reread tested with mocks |
 | Contract actions and live state | Rewards, refunds, latest 20 matches + ID lookup, lifecycle/settlement methods, exact approvals, cosmetics, owner console; five-second visible connected-page refresh |
 | Launch setup | Unset prerequisites shown; dependent core actions and non-owner settings disabled; owner fields remain actual user inputs |
@@ -34,15 +34,17 @@ Root `DESIGN.md` is prohibited by the task’s overriding write budget. The fina
 
 ## Commands and results
 
+The final integrity recheck compares the retained inputs with both pinned handoff files, byte-compares all five ABIs with `git show <sourceCommit>:docs/abi/<Contract>.json`, recomputes canonical Keccak and every asset SHA-256, verifies allowed paths/no gitlinks/no dependency artifacts and matches the browser-tested bundle hash. See `integrity.json` for the final export and candidate bundle byte counts. `.imd-responses.json` is the explicitly requested revision-response exception to the ordinary path budget.
+
 - `npm --prefix web run typecheck`: passed.
 - `npm --prefix web test`: 13/13 passed. Includes map connectivity, exact continent partitions, tie resolution, deterministic dice, legal/illegal deployment, army conservation/capture, single fortification, result ties, 50 complete seeded AI games, exact extended v4 swap decoding, unknown-chain fallback and wallet rejection.
 - `npm --prefix web run build`: passed after final source and cover corrections. The manifest generator runs after Vite.
 - `npm --prefix web run check:export`: passed, with all five implementation ABI bindings and exact handoff/network/poolKey equality.
-- `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1 PLAYWRIGHT_BROWSERS_PATH=/tmp/imd-risk-browsers-097d409a node web/scripts/browser-test.mjs`: 16/16 scenarios passed. See `browser-results.json` for the tested bundle hash, scenario names and timings.
-- `PLAYWRIGHT_BROWSERS_PATH=/tmp/imd-risk-browsers-097d409a IMD_PLAYWRIGHT="$PWD/web/node_modules/playwright/index.mjs" node .imd/reads/skills/design-critic/scripts/taste.mjs --out test/scratch/taste`: passed all 16 categories against the final export; retained as `taste.json`.
-- `node web/scripts/live-read.mjs`: read-only RPC snapshot at block **87700777**, chain **4663**, from the handoff’s public endpoint. All five addresses had code, and token metadata/immutable links matched. The owner-dependent vault link, swap venue, signer and seats recipient were unset. Details are in `live-read.json`. No transactions were sent.
+- `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1 PLAYWRIGHT_BROWSERS_PATH=/tmp/imd-risk-revision-browsers node web/scripts/browser-test.mjs`: 31/31 scenarios passed (16 existing checks plus 15 regression/coverage checks). See `browser-results.json` for the tested bundle hash, scenario names and timings.
+- `PLAYWRIGHT_BROWSERS_PATH=/tmp/imd-risk-revision-browsers IMD_PLAYWRIGHT="$PWD/web/node_modules/playwright/index.mjs" node .imd/reads/skills/design-critic/scripts/taste.mjs --out test/scratch/taste`: passed all 16 categories against the final export; retained as `taste.json`.
+- `node web/scripts/live-read.mjs` (initial delivery, retained without a new live-chain run in this revision): read-only RPC snapshot at block **87700777**, chain **4663**, from the handoff’s public endpoint. All five addresses had code, and token metadata/immutable links matched. The owner-dependent vault link, swap venue, signer and seats recipient were unset. Details are in `live-read.json`. No transactions were sent.
 
-The assigned browser MCP answered `Transport closed`. This was not counted as rendered validation. Local Playwright provided the actual browser checks and screenshots instead. Chromium and WebKit binaries were installed under `/tmp`. WebKit’s missing Ubuntu shared libraries were downloaded and extracted under `/tmp`; its local launcher’s library search path was extended. `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1` bypassed only Playwright’s system-library-location precheck; a real WebKit process launched and exercised the app successfully. No browser binaries, OS packages or caches are in the submission.
+The initial delivery reported that its browser MCP answered `Transport closed`; that attempt was not counted as rendered validation. This revision used the local Playwright harness directly. Local Playwright provided the actual browser checks and screenshots instead. Chromium and WebKit binaries were installed under `/tmp`. WebKit’s missing Ubuntu shared libraries were downloaded and extracted under `/tmp`; its local launcher’s library search path was extended. `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1` bypassed only Playwright’s system-library-location precheck; a real WebKit process launched and exercised the app successfully. No browser binaries, OS packages or caches are in the submission.
 
 The test server and browsers are created and closed by one foreground script. The iframe uses `sandbox="allow-scripts allow-pointer-lock"`, with no same-origin storage. Host timeouts are tested by advancing the browser clock, not waiting three minutes. Mock balances, claims, approvals and transaction hashes appear only in the test harness/evidence; production reads the configured network.
 
@@ -55,11 +57,11 @@ The test server and browsers are created and closed by one foreground script. Th
 | Writing | Checked | Practice/reward distinction, unofficial label, descriptive actions, setup reasons, recovery errors, truthful empty state and no invented market data. Hosted claim and registration limits are visible. |
 | Typography | Checked | Three requested weights, two UI font families, six declared scale steps; natural tracking, full addresses/amounts, 16px form inputs; probe passes. System font availability is platform-dependent. |
 | Colors | Checked, bounded | Final probe reports all measured text at its 4.5:1 or 3:1 large-text threshold. Faction numbers/text supplement colors. SVG/translucent art contrast is not fully measured, and color-vision/device testing was not performed. |
-| UI | Checked | Loading, empty, disconnected, wrong-chain, rejection, confirmed, unavailable-feature and retry states; disabled prerequisites, explicit approvals, reduced motion, metadata and share card. No continuous motion. Animation-panel slow-motion review was not performed. |
+| UI | Checked | Loading, empty, disconnected, wrong-chain, rejection, confirmed, unavailable-feature and retry states; disabled prerequisites, explicit approvals, reduced motion, metadata and share card. Active-game searchlight/ownership animations and one-shot combat flash; browser checks confirm pause and reduced-motion suppression. Animation-panel slow-motion review was not performed. |
 
-The site’s one visual idea is a tactical Pepe board with an adjacent command rail. The dark-only theme, geometric hex geography and worn faceted miniatures are deliberate responses to the brief. System sans-serif typography favors readable controls; there is no external stencil-font dependency. The background is a restrained static cartographic treatment, not a claim of a 3D fog/searchlight simulation.
+The site’s one visual idea is a tactical Pepe board with an adjacent command rail. The dark-only theme, geometric hex geography and worn faceted miniatures are deliberate responses to the brief. System sans-serif typography retains readable controls; brand/headline CSS masks add 1px stencil bridges without a font dependency. The map has low-opacity CSS fog/reflections, searchlight movement and crimson ownership pulses. These are decorative 2D effects, with static army/faction/rank cues preserved.
 
-## Findings corrected
+## Findings corrected in the initial delivery
 
 | Severity / source | Observed cause | Change and recheck |
 |---|---|---|
@@ -73,6 +75,27 @@ The site’s one visual idea is a tactical Pepe board with an adjacent command r
 
 No known reproducible in-scope first-screen overflow, broken primary control, missing local asset or design-probe failure remains. The unavailable host on-chain interface is a deployed-contract limitation, not a cosmetic issue hidden by a passing probe.
 
+## Review revision: reproduced findings and fixes
+
+All eight supplied findings reproduced against the accepted export before production source edits. `revision-before.json` records the old bundle hash, failing assertions and observations (including the empty root, stale quote and locked controls). All eight are answered `fixed` in the required `.imd-responses.json`. The source changes are limited to Game, Pepe, Trade, Action and their styles; the existing engine, contracts, ABI inputs, layout and deployment configuration remain intact.
+
+| Finding / final source | Reproduction and correction | Recheck |
+|---|---|---|
+| High `e16c7c5c` · `web/src/components/Game.tsx:547`, `Pepe.tsx:2` | Tank and Scout paths were identical. Each tile now renders its rank gear and 1–5 bright pips, keeping army/faction numbers. | Six-player Alberta Tank vs Quebec Scout; real deployment/fortification reaches Commando, General and Recruit. Continent/world screenshots. |
+| Medium `35aa1325` · `Trade.tsx:41`, `Trade.tsx:181` | A period caused NaN→BigInt and an empty root. Validate slippage before minimum calculation; invalidate quotes synchronously; associate a recoverable inline error. | Chromium/WebKit invalid input and re-quote flow, then usable War room. |
+| Medium `9bd3544e` · `Game.tsx:258` | Dismissing results removed the only restart. Finished boards now retain Play again whenever results are closed. | Close, Escape and Rewards navigation all restart to round 1 in Chromium/WebKit. |
+| Medium `32c75155` · `Game.tsx:471` | Enter on Alberta deployed one troop. Territory Enter/Space now stop propagation. | Selection leaves armies/reserve unchanged; explicit order button still deploys in both browsers. |
+| Medium `a4164131` · `Action.tsx:31` | Delayed claim simulation locked subsequent tabs. Unmount releases only the local simulation/review lock and ignores late completion; signing/receipt ownership persists. | Delayed simulation navigation, newer review lock, review unmount and submitted transaction navigation. Zero sends in cancellation cases. |
+| Medium `77025d9f` · `Trade.tsx:59` | A Buy result became a Sell quote. Bind request/results to token addresses, amount, slippage, account and chain, and require current identity at review. | Old direction/amount responses discarded; fresh Sell quote restores RISK approval. |
+| Medium `5daf6645` · `style.css:367`, `Game.tsx:581` | Static map lacked motion/lighting and battle flash. Add faint ownership pulse, searchlight, fog/reflections and a 150ms flash for each battle. | Ambient and combat animation names observed; flash ends; pause and reduced motion stop animations. A searchlight pause specificity issue found in the first recheck was corrected. |
+| Medium `75270981` · `style.css:114` | Brand/headline had no stencil treatment. Apply a 1px CSS mask to display lettering while retaining text/font metrics. | Computed masks, unchanged 48px/28px headline and inspected desktop/mobile screenshots. |
+
+Six-domain revision coverage: **Accessibility checked** (selection-only keyboard behavior, replay recovery, slippage error association, native dialog focus and reduced motion); **Layout checked** (320/390/1440 reflow, visible first-screen actions, markers retaining numbers); **Writing checked** (recoverable validation, unchanged truthful practice/reward labels); **Typography checked** (display masks preserve text, existing sizes/weights); **Colors checked with limits** (taste measures text; map gradients/art remain outside complete contrast certification); **UI checked** (delayed responses, cancelled and submitted action lifetimes, restart and motion states). Physical screen readers/devices, native browser 200% zoom, RTL and slow-motion animation-panel inspection remain unperformed.
+
+Final regression evidence: `revision-observations.json`, `revision-ranks-1440.png`, `revision-ranks-world.png`, `revision-rank-promotions.png`, `revision-first-screen-390.png` and `revision-motion-reduced.png`. Baseline reproduction and all wallet/quote regression tests use mocks; no live signing was requested. The pre-existing host-contract compatibility limitation below is unchanged.
+
+Completion: **Complete for the stated revision scope**; all reported defects are repaired and browser-rechecked. The design document stays at `docs/DESIGN.md` because root DESIGN.md remains outside the overriding write allowance.
+
 ## Evidence
 
 - `mobile-390.png`: first screen, with product, start and wallet visible.
@@ -83,7 +106,7 @@ No known reproducible in-scope first-screen overflow, broken primary control, mi
 - `iframe.png`: host account response and explicitly disabled unsupported host claim.
 - `browser-results.json`, `accessibility.json`, `taste.json`, `live-read.json`, `integrity.json`: machine-readable records, each with its stated scope.
 
-The final artwork and the rendered mobile/desktop/gameplay/results/wallet/iframe evidence were visually inspected. Screenshots are evidence of the tested view, not a substitute for every game state.
+The revised 390px first screen, desktop rank zoom and multi-rank promotion scene were visually inspected. The browser runner also refreshes gameplay/results/wallet/iframe evidence and checks those flows programmatically. Screenshots are evidence of the tested view, not a substitute for every game state.
 
 ## Untested and unavailable behavior
 

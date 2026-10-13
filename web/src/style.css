@@ -111,6 +111,22 @@ h2 {
   line-height: 1.3;
   font-weight: 600;
 }
+.game-heading h1,
+.brand > span {
+  /* A narrow stencil bridge; preserve real, selectable display text. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0 calc(50% - 0.5px),
+    transparent calc(50% - 0.5px) calc(50% + 0.5px),
+    #000 calc(50% + 0.5px)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0 calc(50% - 0.5px),
+    transparent calc(50% - 0.5px) calc(50% + 0.5px),
+    #000 calc(50% + 0.5px)
+  );
+}
 h3 {
   font-size: var(--s3);
   line-height: 1.4;
@@ -347,6 +363,88 @@ main {
   height: 100%;
   display: block;
   user-select: none;
+}
+.map-atmosphere,
+.battle-flash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.map-atmosphere {
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 30% 78%, #8bdde412, transparent 62%),
+    linear-gradient(
+      174deg,
+      transparent 57%,
+      #8bdde40b 58%,
+      transparent 59%,
+      #ad47550d 79%,
+      transparent 81%
+    );
+}
+.map-atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(
+    from 15deg at 50% 85%,
+    transparent 0deg,
+    #8bdde400 310deg,
+    #8bdde413 326deg,
+    transparent 340deg
+  );
+}
+.ownership-pulse {
+  fill: #ad4755;
+  opacity: 0.06;
+  pointer-events: none;
+}
+.rank-pips {
+  filter: drop-shadow(0 0 1px #b1ff9670);
+}
+.battle-flash {
+  opacity: 0;
+  background: radial-gradient(ellipse at center, #8bdde417, #ad47552b);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .map-scene.active .map-atmosphere::before {
+    animation: searchlight-sweep 22s ease-in-out infinite alternate;
+  }
+  .ownership-pulse {
+    animation: ownership-pulse 4.8s ease-in-out infinite alternate;
+  }
+  .battle-flash {
+    animation: battle-flash 150ms ease-out;
+  }
+  .map-scene.motion-paused *,
+  .map-scene.active.motion-paused .map-atmosphere::before {
+    animation-play-state: paused;
+  }
+}
+@keyframes searchlight-sweep {
+  from {
+    transform: rotate(-24deg);
+  }
+  to {
+    transform: rotate(32deg);
+  }
+}
+@keyframes ownership-pulse {
+  from {
+    opacity: 0.025;
+  }
+  to {
+    opacity: 0.11;
+  }
+}
+@keyframes battle-flash {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 0;
+  }
 }
 .territory {
   cursor: pointer;

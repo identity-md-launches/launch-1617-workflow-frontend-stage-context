@@ -1,3 +1,70 @@
+/** Compact map art: the portrait's green facets, visor, plate and bandana. */
+export function PepeMiniature({ rank }: { rank: string }) {
+  const pips =
+    { Recruit: 1, Scout: 2, Tank: 3, Commando: 4, General: 5 }[rank] ?? 1;
+  return (
+    <g className="pepe-miniature" data-rank={rank} aria-hidden="true">
+      <path
+        d="M-13-11L-10-20-4-21 0-15 5-21 12-19 15-10 11-2-10-2Z"
+        fill="#89ae60"
+      />
+      <path d="M-13-11L0-8 14-11 11-2-10-2Z" fill="#698643" />
+      <path d="M-9-13H-4M5-13H11" stroke="#dbd8b5" strokeWidth="3" />
+      <path
+        d="M-6-14V-11M8-14V-11M-7-6Q1-3 10-7"
+        stroke="#182a20"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      {rank === "Scout" ? (
+        <path
+          className="job-gear"
+          d="M-12-15H13V-10H-12Z"
+          fill="#73d4d8"
+          stroke="#263c38"
+          strokeWidth="1"
+        />
+      ) : rank === "Tank" ? (
+        <g className="job-gear" fill="#425c58" stroke="#a7b5b6" strokeWidth="1">
+          <path d="M-15-16L-10-24H10L16-16V-14H-15Z" />
+          <path d="M-16-11L-12-9-10-2H-15ZM15-11L11-9 10-2H15Z" />
+        </g>
+      ) : rank === "Commando" ? (
+        <g className="job-gear" fill="#ad4755">
+          <path d="M-12-20L-5-24 11-23 15-19 2-20-12-16Z" />
+          <path d="M12-20L20-14 17-6 16-15 11-16Z" />
+        </g>
+      ) : rank === "General" ? (
+        <g className="job-gear">
+          <path
+            d="M-14-19L-9-26H9L15-19 9-16H-9Z"
+            fill="#354440"
+            stroke="#edd099"
+          />
+          <path
+            d="M0-24L1-22 4-22 2-20 3-18 0-19-3-18-2-20-4-22-1-22Z"
+            fill="#edd099"
+          />
+        </g>
+      ) : (
+        <path className="job-gear" d="M-12-19L-7-23H8L13-19Z" fill="#3b5641" />
+      )}
+      <g className="rank-pips" fill="#b1ff96">
+        {Array.from({ length: pips }, (_, i) => (
+          <rect
+            className="rank-pip"
+            key={i}
+            x={i * 6 - (pips * 6 - 2) / 2}
+            y="21"
+            width="4"
+            height="3"
+          />
+        ))}
+      </g>
+    </g>
+  );
+}
+
 export function Pepe({
   rank = "Commando",
   className = "",

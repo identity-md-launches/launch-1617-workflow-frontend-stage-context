@@ -11,7 +11,7 @@ import {
   type Game as GameState,
 } from "../game/engine";
 import { bridges, continents, factions, rank, territories } from "../game/map";
-import { Pepe } from "./Pepe";
+import { Pepe, PepeMiniature } from "./Pepe";
 import { Dialog } from "./Dialog";
 const preview = startGame(6, "solo", `0x${"19".repeat(32)}`);
 export function Game({
@@ -256,7 +256,13 @@ export function Game({
           <button onClick={() => setSound((v) => !v)} aria-pressed={sound}>
             {sound ? "Sound on" : "Sound off"}
           </button>
-          {game && <button onClick={() => setPaused(true)}>Pause</button>}
+          {game?.over
+            ? !showResults && (
+                <button className="primary" onClick={start}>
+                  Play again
+                </button>
+              )
+            : game && <button onClick={() => setPaused(true)}>Pause</button>}
         </div>
       </div>
       <div className="operation-bar">
@@ -329,7 +335,7 @@ export function Game({
             </select>
           </div>
           <div
-            className={`map-scene ${game ? "active" : ""}`}
+            className={`map-scene ${game ? "active" : ""} ${paused || hostPaused || help || board.over ? "motion-paused" : ""}`}
             onPointerUp={() => (drag.current = false)}
             onPointerLeave={() => (drag.current = false)}
           >
@@ -462,6 +468,7 @@ export function Game({
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
+                        e.stopPropagation();
                         select(t.id);
                       } else if (
                         [
@@ -530,15 +537,14 @@ export function Game({
                       fill={f.color}
                       opacity=".1"
                     />
-                    <path
-                      d="M-11-10L-8-16-2-17 1-12 6-17 12-15 14-9 11-3-8-3Z"
-                      fill="#89ae60"
-                    />
-                    <path
-                      d="M-7-12H-3M6-12H10M-6-6H9"
-                      stroke="#182a20"
-                      strokeWidth="2"
-                    />
+                    {game && (
+                      <path
+                        className="ownership-pulse"
+                        d="M-30-17L0-34 30-17 30 17 0 34-30 17Z"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <PepeMiniature rank={rank(value.units)} />
                     <text
                       x="0"
                       y="15"
@@ -572,6 +578,14 @@ export function Game({
                 </text>
               </g>
             </svg>
+            <div className="map-atmosphere" aria-hidden="true" />
+            {!!game?.battles && (
+              <div
+                key={`${game.seed}-${game.battles}`}
+                className="battle-flash"
+                aria-hidden="true"
+              />
+            )}
             {!game && (
               <div className="map-caption">
                 <span>Operation / Neon frontier</span>

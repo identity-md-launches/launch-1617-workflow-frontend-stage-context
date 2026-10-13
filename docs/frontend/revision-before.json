@@ -1,0 +1,146 @@
+{
+  "observedAt": "2026-10-13T18:38:57.291Z",
+  "testedExport": {
+    "path": "assets/main-B3osd7Ob.js",
+    "sha256": "1eac3c0f58228bbe5dcd0750a03bf427f6597520b8690b408da043c6851fc7fe"
+  },
+  "mode": "Production static export; mocked wallet/RPC; no live transactions",
+  "checks": [
+    {
+      "name": "revision: e16c7c5c rank gear and pips on the six-faction map",
+      "passed": false,
+      "error": "Tank and Scout must have different job gear"
+    },
+    {
+      "name": "revision: 32c75155 Enter and Space select without committing an order",
+      "passed": false,
+      "error": "Enter must select without deploying\n+ actual - expected\n\n+ 'Alberta, Jade squad, 4 Pepes'\n- 'Alberta, Jade squad, 3 Pepes'\n                        ^\n"
+    },
+    {
+      "name": "revision: 9bd3544e replay after close, Escape and rewards navigation",
+      "passed": false,
+      "error": "close: restart remains reachable"
+    },
+    {
+      "name": "revision: 35aa1325 invalid slippage preserves and recovers the app",
+      "passed": false,
+      "error": "Slippage edit must keep the app mounted"
+    },
+    {
+      "name": "revision: a4164131 unmount cancels simulation without stranding the wallet lock",
+      "passed": false,
+      "error": "Expected values to be strictly equal:\n\ntrue !== false\n"
+    },
+    {
+      "name": "revision: 77025d9f quotes cannot cross direction or amount changes",
+      "passed": false,
+      "error": "Buy response cannot become a Sell quote\n\n1 !== 0\n"
+    },
+    {
+      "name": "revision: 5daf6645 map lighting, combat flash and reduced motion",
+      "passed": false,
+      "error": "Searchlight moves across board"
+    },
+    {
+      "name": "revision: 75270981 stencil display retains text, hierarchy and body font",
+      "passed": false,
+      "error": "The expression evaluated to a falsy value:\n\n  assert(o.styles.every((s) => s.mask !== \"none\"))\n"
+    }
+  ],
+  "rpcMethods": [
+    "eth_chainId",
+    "eth_getCode",
+    "eth_call"
+  ],
+  "failures": [
+    "revision: e16c7c5c rank gear and pips on the six-faction map",
+    "revision: 32c75155 Enter and Space select without committing an order",
+    "revision: 9bd3544e replay after close, Escape and rewards navigation",
+    "revision: 35aa1325 invalid slippage preserves and recovers the app",
+    "revision: a4164131 unmount cancels simulation without stranding the wallet lock",
+    "revision: 77025d9f quotes cannot cross direction or amount changes",
+    "revision: 5daf6645 map lighting, combat flash and reduced motion",
+    "revision: 75270981 stencil display retains text, hierarchy and body font"
+  ],
+  "purpose": "Expected failing regression assertions against the accepted pre-revision export; all eight reviewer findings reproduced before production source edits.",
+  "observations": [
+    {
+      "name": "e16c7c5c rank gear and pips on the six-faction map",
+      "errors": [],
+      "tankPaths": [
+        "M-30-17L0-34 30-17 30 17 0 34-30 17Z",
+        "M-28-16L0-30 27-16 0 0Z",
+        "M-11-10L-8-16-2-17 1-12 6-17 12-15 14-9 11-3-8-3Z",
+        "M-7-12H-3M6-12H10M-6-6H9"
+      ],
+      "scoutPaths": [
+        "M-30-17L0-34 30-17 30 17 0 34-30 17Z",
+        "M-28-16L0-30 27-16 0 0Z",
+        "M-11-10L-8-16-2-17 1-12 6-17 12-15 14-9 11-3-8-3Z",
+        "M-7-12H-3M6-12H10M-6-6H9"
+      ]
+    },
+    {
+      "name": "32c75155 Enter and Space select without committing an order",
+      "errors": [],
+      "before": "Alberta, Jade squad, 3 Pepes",
+      "after": "Alberta, Jade squad, 4 Pepes"
+    },
+    {
+      "name": "9bd3544e replay after close, Escape and rewards navigation",
+      "errors": [],
+      "recoveries": [
+        {
+          "dismissal": "close",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "35aa1325 invalid slippage preserves and recovers the app",
+      "errors": [
+        "The number NaN cannot be converted to a BigInt because it is not an integer"
+      ],
+      "rootLength": 0
+    },
+    {
+      "name": "a4164131 unmount cancels simulation without stranding the wallet lock",
+      "errors": [],
+      "buyDisabled": true,
+      "dialogs": 0,
+      "sent": 0
+    },
+    {
+      "name": "77025d9f quotes cannot cross direction or amount changes",
+      "errors": [],
+      "staleQuote": [
+        "10 IMDMinimum received: 9.95 IMD30 seconds until quote expires \u00b7 Pool fee 1.25%"
+      ],
+      "quoteCalls": 1
+    },
+    {
+      "name": "5daf6645 map lighting, combat flash and reduced motion",
+      "errors": [],
+      "ambient": [],
+      "combat": []
+    },
+    {
+      "name": "75270981 stencil display retains text, hierarchy and body font",
+      "errors": [],
+      "styles": [
+        {
+          "text": "IMD PEPE RISK",
+          "mask": "none",
+          "size": "20px",
+          "weight": "600"
+        },
+        {
+          "text": "Take the territory.",
+          "mask": "none",
+          "size": "48px",
+          "weight": "800"
+        }
+      ]
+    }
+  ]
+}

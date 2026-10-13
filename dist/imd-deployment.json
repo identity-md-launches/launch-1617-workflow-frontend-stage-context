@@ -58,16 +58,16 @@
       "sha256": "b3af8b65d4963cceb9e3312be52855c7451de6e629ab234107cb739565450912"
     },
     {
-      "path": "assets/ccip-BxRnnVQ_.js",
-      "sha256": "a8482f312174c2df6b640791c6802a7fde9df5d028bb09d1e8366b4d19b08683"
+      "path": "assets/ccip-rI6AgcJY.js",
+      "sha256": "51508cb3ca49c385c6d61210c519b5406e6f87116e287bf27a821aca6c7274f9"
     },
     {
-      "path": "assets/main-B3osd7Ob.js",
-      "sha256": "1eac3c0f58228bbe5dcd0750a03bf427f6597520b8690b408da043c6851fc7fe"
+      "path": "assets/main-CMgtboV3.css",
+      "sha256": "aab7ff0659ece6f362a1bc20148fb5719005ffff0ffe776376e10591f30443c2"
     },
     {
-      "path": "assets/main-CQbYf9N2.css",
-      "sha256": "5f4e62324350d0de516d1cbd7b8ba07437a54a819b97d6ab7951260baa60fcfe"
+      "path": "assets/main-DZL25tPv.js",
+      "sha256": "e4b76c8c4e470f2fc572e4397a1ac3058a675d7ed4adde0fbed9526c2ce62e2d"
     },
     {
       "path": "cover.webp",
@@ -79,7 +79,7 @@
     },
     {
       "path": "index.html",
-      "sha256": "94301b0006b7ddf2e25910eb6717d5da2d3d88129e7a6a881a327fad76cf92ba"
+      "sha256": "9cfafb777a51da7709230e983a7bcdbb21c893a755938c0dc2db298a07bc9e44"
     },
     {
       "path": "licenses/pepe2pepe-sdk.txt",
@@ -91,7 +91,7 @@
     },
     {
       "path": "play.html",
-      "sha256": "3d6dc5d7b604cd198779293af589c0d88467f91e929b2a473c75107fcafa1b10"
+      "sha256": "695592776a0cc3cc7b45f97c13ee0248c228094ba940f5e6c6df7db1ef65dc3a"
     }
   ],
   "poolKey": {

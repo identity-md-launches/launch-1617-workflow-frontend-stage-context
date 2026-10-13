@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { type Address, type Hex } from "viem";
 import { useWallet, walletFor, readableError, type Intent } from "../wallet";
 import { Dialog } from "./Dialog";
@@ -28,7 +28,24 @@ export function Action({
     [error, setError] = useState(""),
     [hash, setHash] = useState<Hex>();
   const inFlight = useRef(false),
+    mounted = useRef(false),
+    lock = useRef<"none" | "review" | "wallet">("none"),
     preparedAccount = useRef<Address | undefined>(undefined);
+  const release = () => {
+    if (lock.current === "none") return;
+    lock.current = "none";
+    inFlight.current = false;
+    w.setBusy(false);
+  };
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      // A read-only simulation/review belongs to this mounted control.
+      // Once signing starts, send() owns the lock through receipt resolution.
+      if (lock.current === "review") release();
+    };
+  }, [w.setBusy]);
   const label = typeof intent === "function" ? "Review action" : intent.label;
   const prepare = async () => {
     if (!w.runtime || !w.account || w.busy || inFlight.current) return;
@@ -37,10 +54,13 @@ export function Action({
     setError("");
     setHash(undefined);
     setState("simulating");
+    lock.current = "review";
     w.setBusy(true);
     try {
       const i = typeof intent === "function" ? await intent() : intent;
+      if (!mounted.current) return;
       await walletFor(w.runtime, w.account);
+      if (!mounted.current) return;
       await w.runtime.client.simulateContract({
         ...w.runtime.contracts[i.contract],
         ...(i.address ? { address: i.address } : {}),
@@ -50,13 +70,14 @@ export function Action({
         account: w.account,
         value: i.value ?? 0n,
       });
+      if (!mounted.current) return;
       setDraft(i);
       setState("idle");
     } catch (e) {
+      if (!mounted.current) return;
       setError(readableError(e));
       setState("idle");
-      w.setBusy(false);
-      inFlight.current = false;
+      release();
     }
   };
   const send = async () => {
@@ -75,6 +96,7 @@ export function Action({
         );
       const wallet = await walletFor(w.runtime, w.account),
         i = draft;
+      if (!mounted.current) return;
       const { request } = await w.runtime.client.simulateContract({
         ...w.runtime.contracts[i.contract],
         ...(i.address ? { address: i.address } : {}),
@@ -84,6 +106,8 @@ export function Action({
         account: w.account,
         value: i.value ?? 0n,
       });
+      if (!mounted.current) return;
+      lock.current = "wallet";
       const h = await wallet.writeContract(request);
       submittedHash = h;
       setHash(h);
@@ -115,7 +139,12 @@ export function Action({
         });
       } else setState("idle");
     } finally {
-      w.setBusy(!!submittedHash && !resolved);
+      if (lock.current !== "none") {
+        if (submittedHash && !resolved) {
+          // The global transaction banner retains the lock for receipt recheck.
+          lock.current = "none";
+        } else release();
+      }
       inFlight.current = false;
     }
   };
@@ -195,8 +224,7 @@ export function Action({
         title="Review transaction"
         onClose={() => {
           setDraft(null);
-          w.setBusy(false);
-          inFlight.current = false;
+          release();
         }}
       >
         <p>{draft?.description}</p>
@@ -235,8 +263,7 @@ export function Action({
         <button
           onClick={() => {
             setDraft(null);
-            w.setBusy(false);
-            inFlight.current = false;
+            release();
           }}
         >
           Cancel

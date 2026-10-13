@@ -1,0 +1,241 @@
+[
+  {
+    "name": "e16c7c5c rank gear and pips on the six-faction map",
+    "errors": [],
+    "tankPaths": [
+      "M-30-17L0-34 30-17 30 17 0 34-30 17Z",
+      "M-28-16L0-30 27-16 0 0Z",
+      "M-30-17L0-34 30-17 30 17 0 34-30 17Z",
+      "M-13-11L-10-20-4-21 0-15 5-21 12-19 15-10 11-2-10-2Z",
+      "M-13-11L0-8 14-11 11-2-10-2Z",
+      "M-9-13H-4M5-13H11",
+      "M-6-14V-11M8-14V-11M-7-6Q1-3 10-7",
+      "M-15-16L-10-24H10L16-16V-14H-15Z",
+      "M-16-11L-12-9-10-2H-15ZM15-11L11-9 10-2H15Z"
+    ],
+    "scoutPaths": [
+      "M-30-17L0-34 30-17 30 17 0 34-30 17Z",
+      "M-28-16L0-30 27-16 0 0Z",
+      "M-30-17L0-34 30-17 30 17 0 34-30 17Z",
+      "M-13-11L-10-20-4-21 0-15 5-21 12-19 15-10 11-2-10-2Z",
+      "M-13-11L0-8 14-11 11-2-10-2Z",
+      "M-9-13H-4M5-13H11",
+      "M-6-14V-11M8-14V-11M-7-6Q1-3 10-7",
+      "M-12-15H13V-10H-12Z"
+    ]
+  },
+  {
+    "name": "32c75155 Enter and Space select without committing an order",
+    "errors": [],
+    "before": "Alberta, Jade squad, 3 Pepes",
+    "after": "Alberta, Jade squad, 3 Pepes"
+  },
+  {
+    "name": "9bd3544e replay after close, Escape and rewards navigation",
+    "errors": [],
+    "recoveries": [
+      {
+        "dismissal": "close",
+        "visible": true
+      },
+      {
+        "dismissal": "escape",
+        "visible": true
+      },
+      {
+        "dismissal": "rewards",
+        "visible": true
+      }
+    ]
+  },
+  {
+    "name": "35aa1325 invalid slippage preserves and recovers the app",
+    "errors": [],
+    "rootLength": 64455
+  },
+  {
+    "name": "a4164131 unmount cancels simulation without stranding the wallet lock",
+    "errors": [],
+    "buyDisabled": false,
+    "dialogs": 0,
+    "sent": 0
+  },
+  {
+    "name": "77025d9f quotes cannot cross direction or amount changes",
+    "errors": [],
+    "staleQuote": [],
+    "quoteCalls": 1
+  },
+  {
+    "name": "5daf6645 map lighting, combat flash and reduced motion",
+    "errors": [],
+    "ambient": [
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "searchlight-sweep"
+    ],
+    "combat": [
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "ownership-pulse",
+      "searchlight-sweep",
+      "battle-flash"
+    ]
+  },
+  {
+    "name": "75270981 stencil display retains text, hierarchy and body font",
+    "errors": [],
+    "styles": [
+      {
+        "text": "IMD PEPE RISK",
+        "mask": "linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) calc(50% - 0.5px), rgba(0, 0, 0, 0) calc(50% - 0.5px), rgba(0, 0, 0, 0) calc(50% + 0.5px), rgb(0, 0, 0) calc(50% + 0.5px))",
+        "size": "20px",
+        "weight": "600"
+      },
+      {
+        "text": "Take the territory.",
+        "mask": "linear-gradient(rgb(0, 0, 0) 0px, rgb(0, 0, 0) calc(50% - 0.5px), rgba(0, 0, 0, 0) calc(50% - 0.5px), rgba(0, 0, 0, 0) calc(50% + 0.5px), rgb(0, 0, 0) calc(50% + 0.5px))",
+        "size": "48px",
+        "weight": "800"
+      }
+    ]
+  },
+  {
+    "name": "rank promotions through Commando and General, fortification to Recruit",
+    "errors": [],
+    "ranks": [
+      {
+        "rank": "Commando",
+        "gear": "<path d=\"M-12-20L-5-24 11-23 15-19 2-20-12-16Z\"></path><path d=\"M12-20L20-14 17-6 16-15 11-16Z\"></path>"
+      },
+      {
+        "rank": "General",
+        "gear": "<path d=\"M-14-19L-9-26H9L15-19 9-16H-9Z\" fill=\"#354440\" stroke=\"#edd099\"></path><path d=\"M0-24L1-22 4-22 2-20 3-18 0-19-3-18-2-20-4-22-1-22Z\" fill=\"#edd099\"></path>"
+      },
+      {
+        "rank": "Recruit",
+        "units": 1
+      }
+    ],
+    "lastTurn": 6
+  },
+  {
+    "name": "late simulation cannot release a newer review; unmounted review releases its own lock",
+    "errors": [],
+    "review": "Review transaction\n×\n\nSet an exact allowance of 1 IMD for the network’s Permit2 contract. No swap is made yet.\n\nContract\nLaunchToken\nMethod\napprove\nNetwork\nRobinhood Chain\nWallet\n0x3d6a89c8751a45dd577a4c1f3b34e71c58236193\nContract address\n0x5f7bb59365ce557c26dbcaa4ee9d39a4b95b7127\nArguments (raw units)\n[\n  \"0x000000000022d473030f116ddee9f6b43ac78ba3\",\n  \"1000000000000000000\"\n]\n\nYour wallet will show the network gas fee. Review the exact amounts and recipient before signing.\n\nConfirm 1. approve imd to permit2Cancel",
+    "sent": 0
+  },
+  {
+    "name": "submitted transaction keeps global lock across navigation",
+    "errors": [],
+    "sent": 1
+  },
+  {
+    "name": "WebKit keyboard selection",
+    "errors": [],
+    "before": "Alberta, Jade squad, 3 Pepes",
+    "after": "Alberta, Jade squad, 3 Pepes"
+  },
+  {
+    "name": "WebKit replay recovery",
+    "errors": [],
+    "recoveries": [
+      {
+        "dismissal": "close",
+        "visible": true
+      },
+      {
+        "dismissal": "escape",
+        "visible": true
+      },
+      {
+        "dismissal": "rewards",
+        "visible": true
+      }
+    ]
+  },
+  {
+    "name": "WebKit slippage recovery",
+    "errors": [],
+    "rootLength": 64455
+  }
+]

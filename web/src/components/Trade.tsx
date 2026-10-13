@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { erc20Abi, parseUnits, type Address } from "viem";
 import { useWallet, readableError, type Intent } from "../wallet";
 import { displayAmount } from "../config";
@@ -10,10 +10,13 @@ export function Trade() {
     [direction, setDirection] = useState<"buy" | "sell">("buy"),
     [amount, setAmount] = useState(""),
     [slippage, setSlippage] = useState("0.5"),
-    [quote, setQuote] = useState<{
+    [storedQuote, setQuote] = useState<{
       out: bigint;
       at: number;
       input: bigint;
+      inputToken: Address;
+      outputToken: Address;
+      key: string;
     } | null>(null),
     [quoting, setQuoting] = useState(false),
     [error, setError] = useState(""),
@@ -28,13 +31,19 @@ export function Trade() {
         ? d?.network.pairToken.address
         : runtime?.contracts.LaunchToken.address
     ) as Address | undefined,
+    output = (
+      direction === "buy"
+        ? runtime?.contracts.LaunchToken.address
+        : d?.network.pairToken.address
+    ) as Address | undefined,
     inputSymbol = direction === "buy" ? "IMD" : "RISK",
     outputSymbol = direction === "buy" ? "RISK" : "IMD";
-  const valid =
-    /^\d+(\.\d{1,18})?$/.test(amount) &&
+  const validSlippage =
+    Number.isFinite(Number(slippage)) &&
     Number(slippage) >= 0.01 &&
     Number(slippage) <= 5 &&
     /^\d+(\.\d{1,2})?$/.test(slippage);
+  const valid = /^\d+(\.\d{1,18})?$/.test(amount) && validSlippage;
   let raw = 0n;
   try {
     raw = valid ? parseUnits(amount, 18) : 0n;
@@ -47,10 +56,32 @@ export function Trade() {
     raw < 2n ** 128n &&
     balance !== undefined &&
     raw <= balance;
-  useEffect(() => {
+  const quoteKey = JSON.stringify([
+      input,
+      output,
+      amount,
+      slippage,
+      w.account,
+      w.chainId,
+      d?.chainId,
+    ]),
+    latestKey = useRef(quoteKey),
+    quoteRequest = useRef(0);
+  latestKey.current = quoteKey;
+  const quote = valid && storedQuote?.key === quoteKey ? storedQuote : null;
+  const invalidateQuote = () => {
+    quoteRequest.current++;
     setQuote(null);
+    setQuoting(false);
     setError("");
-  }, [amount, direction, slippage, w.account, w.chainId]);
+  };
+  useEffect(invalidateQuote, [w.account, w.chainId]);
+  useEffect(
+    () => () => {
+      quoteRequest.current++;
+    },
+    [],
+  );
   useEffect(() => {
     if (!quote) return;
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -104,7 +135,10 @@ export function Trade() {
     };
   }, [runtime, input, w.account, w.revision]);
   const getQuote = async () => {
-    if (!runtime || !d || !input || !usable) return;
+    if (!runtime || !d || !input || !output || !usable) return;
+    const request = ++quoteRequest.current,
+      isCurrent = () =>
+        request === quoteRequest.current && latestKey.current === quoteKey;
     setQuoting(true);
     setError("");
     setQuote(null);
@@ -124,27 +158,40 @@ export function Trade() {
         ],
         account: w.account,
       });
+      if (!isCurrent()) return;
       if (!result.result[0])
         throw Error("No output liquidity is available for this amount.");
-      setQuote({ out: result.result[0], at: Date.now(), input: raw });
+      setQuote({
+        out: result.result[0],
+        at: Date.now(),
+        input: raw,
+        inputToken: input,
+        outputToken: output,
+        key: quoteKey,
+      });
       setNow(Date.now());
     } catch (e) {
-      setError(readableError(e));
+      if (isCurrent()) setError(readableError(e));
     } finally {
-      setQuoting(false);
+      if (isCurrent()) setQuoting(false);
     }
   };
   const fresh = !!quote && (now - quote.at < 30000 || w.busy),
-    minimum = quote
-      ? (quote.out * (10000n - BigInt(Math.round(Number(slippage) * 100)))) /
-        10000n
-      : 0n;
+    minimum =
+      quote && validSlippage
+        ? (quote.out * (10000n - BigInt(Math.round(Number(slippage) * 100)))) /
+          10000n
+        : 0n;
   const execute = async (): Promise<Intent> => {
     if (
       !runtime ||
       !d ||
       !input ||
       !quote ||
+      !usable ||
+      quote.key !== latestKey.current ||
+      quote.inputToken !== input ||
+      quote.outputToken !== output ||
       Date.now() - quote.at >= 30000 ||
       quote.input !== raw ||
       minimum <= 0n
@@ -174,14 +221,20 @@ export function Trade() {
           <button
             disabled={w.busy}
             aria-pressed={direction === "buy"}
-            onClick={() => setDirection("buy")}
+            onClick={() => {
+              invalidateQuote();
+              setDirection("buy");
+            }}
           >
             Buy RISK
           </button>
           <button
             disabled={w.busy}
             aria-pressed={direction === "sell"}
-            onClick={() => setDirection("sell")}
+            onClick={() => {
+              invalidateQuote();
+              setDirection("sell");
+            }}
           >
             Sell RISK
           </button>
@@ -193,7 +246,10 @@ export function Trade() {
             inputMode="decimal"
             placeholder="0.00"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => {
+              invalidateQuote();
+              setAmount(e.target.value);
+            }}
           />
         </label>
         <p className="small muted">
@@ -205,12 +261,22 @@ export function Trade() {
             disabled={w.busy}
             inputMode="decimal"
             value={slippage}
-            onChange={(e) => setSlippage(e.target.value)}
+            aria-invalid={!validSlippage}
+            aria-describedby="slippage-hint"
+            onChange={(e) => {
+              invalidateQuote();
+              setSlippage(e.target.value);
+            }}
           />
         </label>
-        <p className="small muted">
-          Allowed: 0.01–5%. Quotes expire in 30 seconds. USD pricing is
-          unavailable.
+        <p
+          id="slippage-hint"
+          className={`small ${validSlippage ? "muted" : "warning"}`}
+          role="status"
+        >
+          {validSlippage
+            ? "Allowed: 0.01–5%. Quotes expire in 30 seconds. USD pricing is unavailable."
+            : "Enter a slippage from 0.01 to 5%, with at most two decimal places."}
         </p>
         <button
           className="primary"

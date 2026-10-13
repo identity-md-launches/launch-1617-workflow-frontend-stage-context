@@ -1,90 +1,165 @@
 {
-  "observedAt": "2026-10-13T18:10:05.368Z",
+  "observedAt": "2026-10-13T18:53:06.819Z",
   "testedExport": {
-    "path": "assets/main-B3osd7Ob.js",
-    "sha256": "1eac3c0f58228bbe5dcd0750a03bf427f6597520b8690b408da043c6851fc7fe"
+    "path": "assets/main-DZL25tPv.js",
+    "sha256": "e4b76c8c4e470f2fc572e4397a1ac3058a675d7ed4adde0fbed9526c2ce62e2d"
   },
   "mode": "Production static export; mocked wallet/RPC; no live transactions",
   "checks": [
     {
       "name": "390px first screen: product, start and wallet; static gateway subpath",
       "passed": true,
-      "durationMs": 153
+      "durationMs": 142
     },
     {
       "name": "320px and 1440px layout; no missing local assets",
       "passed": true,
-      "durationMs": 158
+      "durationMs": 172
     },
     {
       "name": "missing wallet: actionable error, game remains usable",
       "passed": true,
-      "durationMs": 52
+      "durationMs": 54
     },
     {
       "name": "touch: start, deploy, target, attack, fortify, next turn",
       "passed": true,
-      "durationMs": 449
+      "durationMs": 428
     },
     {
       "name": "keyboard: map arrows, pause, focus trap, resume, results and restart",
       "passed": true,
-      "durationMs": 323
+      "durationMs": 309
     },
     {
       "name": "reduced motion and accessible initial-page scan",
       "passed": true,
-      "durationMs": 1127
+      "durationMs": 985
     },
     {
       "name": "wallet connect, wrong chain, exact add-chain fallback then switch",
       "passed": true,
-      "durationMs": 259
+      "durationMs": 222
     },
     {
       "name": "reward claim: simulation, review, rejection, retry, confirmation, reread",
       "passed": true,
-      "durationMs": 372
+      "durationMs": 313
     },
     {
       "name": "owner controls, invalid input, exact contract set and large numeric overflow",
       "passed": true,
-      "durationMs": 187
+      "durationMs": 174
     },
     {
       "name": "swap quote, exact ERC20 / Permit2 approvals, simulated execution and receipt",
       "passed": true,
-      "durationMs": 593
+      "durationMs": 524
     },
     {
       "name": "opaque iframe: authenticated init, account, pause/resume, unsupported claim disabled",
       "passed": true,
-      "durationMs": 373
+      "durationMs": 357
     },
     {
       "name": "host bridge claim transport: confirmed hash, rejection and channel renewal",
       "passed": true,
-      "durationMs": 366
+      "durationMs": 354
     },
     {
       "name": "host request timeout keeps an uncertain write from auto-retrying",
       "passed": true,
-      "durationMs": 94
+      "durationMs": 83
     },
     {
       "name": "ABI tampering blocks transactions without blocking free practice",
       "passed": true,
-      "durationMs": 233
+      "durationMs": 202
     },
     {
       "name": "RPC outage shows retry while practice stays available",
       "passed": true,
-      "durationMs": 365
+      "durationMs": 376
     },
     {
       "name": "WebKit primary interaction",
       "passed": true,
-      "durationMs": 5120
+      "durationMs": 5373
+    },
+    {
+      "name": "revision: e16c7c5c rank gear and pips on the six-faction map",
+      "passed": true,
+      "durationMs": 791
+    },
+    {
+      "name": "revision: 32c75155 Enter and Space select without committing an order",
+      "passed": true,
+      "durationMs": 376
+    },
+    {
+      "name": "revision: 9bd3544e replay after close, Escape and rewards navigation",
+      "passed": true,
+      "durationMs": 1030
+    },
+    {
+      "name": "revision: 35aa1325 invalid slippage preserves and recovers the app",
+      "passed": true,
+      "durationMs": 654
+    },
+    {
+      "name": "revision: a4164131 unmount cancels simulation without stranding the wallet lock",
+      "passed": true,
+      "durationMs": 5154
+    },
+    {
+      "name": "revision: 77025d9f quotes cannot cross direction or amount changes",
+      "passed": true,
+      "durationMs": 6581
+    },
+    {
+      "name": "revision: 5daf6645 map lighting, combat flash and reduced motion",
+      "passed": true,
+      "durationMs": 1048
+    },
+    {
+      "name": "revision: 75270981 stencil display retains text, hierarchy and body font",
+      "passed": true,
+      "durationMs": 291
+    },
+    {
+      "name": "revision: rank promotions through Commando and General, fortification to Recruit",
+      "passed": true,
+      "durationMs": 1840
+    },
+    {
+      "name": "revision: late simulation cannot release a newer review; unmounted review releases its own lock",
+      "passed": true,
+      "durationMs": 2835
+    },
+    {
+      "name": "revision: submitted transaction keeps global lock across navigation",
+      "passed": true,
+      "durationMs": 2382
+    },
+    {
+      "name": "revision: WebKit regression browser launches",
+      "passed": true,
+      "durationMs": 71
+    },
+    {
+      "name": "revision: WebKit keyboard selection",
+      "passed": true,
+      "durationMs": 3974
+    },
+    {
+      "name": "revision: WebKit replay recovery",
+      "passed": true,
+      "durationMs": 6234
+    },
+    {
+      "name": "revision: WebKit slippage recovery",
+      "passed": true,
+      "durationMs": 4455
     }
   ],
   "rpcMethods": [
